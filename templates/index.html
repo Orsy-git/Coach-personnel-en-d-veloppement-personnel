@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Votre Coach Personnel Dynamique</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* Styles globaux pour une sensation apaisante et fluide */
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f7fafa; /* Gris très clair de secours */
+            color: #333;
+            display: flex;
+            flex-direction: column; /* Organise le contenu verticalement */
+            justify-content: center; /* Centre verticalement le contenu */
+            align-items: center; /* Centre horizontalement le contenu */
+            min-height: 100vh; /* Prend toute la hauteur de l'écran */
+            overflow: hidden; /* Cache les débordements pour l'arrière-plan animé */
+            position: relative; /* Base pour l'arrière-plan positionné en absolu */
+        }
+
+        /* Arrière-plan animé et fluide - Le "fleuve de couleurs" */
+        #animated-background {
+            position: fixed; /* Reste en place lors du défilement */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1; /* Place le fond derrière le contenu */
+            /* Nouveau dégradé arc-en-ciel plus dynamique */
+            background: linear-gradient(45deg,
+                #FF9A8B 0%, #FF6A88 15%, #FF99AC 30%, #a1c4fd 45%,
+                #c2e9fb 60%, #84fab0 75%, #00d2ff 90%, #FF9A8B 100% /* Répète la première couleur pour une transition douce */
+            );
+            background-size: 400% 400%; /* Augmenté pour des transitions plus longues et fluides */
+            animation: gradientFlow 30s ease-in-out infinite; /* Animation plus longue pour plus de fluidité */
+        }
+
+        /* Animation du dégradé */
+        @keyframes gradientFlow {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Conteneur principal de l'application - S'adapte à la taille et est centré */
+        .app-container {
+            width: 90%;
+            max-width: 800px; /* Largeur maximale pour le contenu */
+            background-color: rgba(255, 255, 255, 0.92); /* Fond blanc légèrement transparent pour la douceur */
+            border-radius: 20px; /* Coins arrondis pour l'esthétique */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1); /* Ombre douce */
+            padding: 40px;
+            box-sizing: border-box; /* Inclut le padding dans la largeur/hauteur */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centre les éléments enfants horizontalement */
+            max-height: 90vh; /* Limite la hauteur sur les grands écrans */
+            overflow-y: auto; /* Permet le défilement si le contenu dépasse */
+        }
+
+        /* Titre de l'application */
+        h1 {
+            color: #3a4d61; /* Bleu-gris profond pour le contraste */
+            font-size: 2.8em; /* Grande taille pour l'impact */
+            font-weight: 300; /* Plus léger pour une sensation moderne et apaisante */
+            margin-bottom: 35px;
+            letter-spacing: 1px; /* Espacement pour la lisibilité */
+            text-align: center;
+        }
+
+        /* Zone d'affichage de la réponse (pour la bulle "coach") */
+        .response-area {
+            background-color: #ffffff; /* Fond blanc pur pour la réponse du coach */
+            border-radius: 15px; /* Coins arrondis */
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08); /* Ombre légère */
+            width: 100%; /* Prend toute la largeur disponible dans le conteneur */
+            box-sizing: border-box;
+            text-align: left;
+            line-height: 1.7;
+            font-size: 1.1em;
+            color: #444;
+        }
+
+        .response-area h2 {
+            color: #5e7a8c; /* Couleur douce pour le titre de la réponse */
+            font-size: 1.6em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0; /* Ligne de séparation subtile */
+            padding-bottom: 10px;
+            font-weight: 500;
+        }
+
+        /* Formulaire de question */
+        form {
+            width: 100%; /* Prend toute la largeur du conteneur */
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Espacement entre les éléments du formulaire */
+            align-items: stretch; /* Les éléments s'étirent sur toute la largeur */
+        }
+
+        label {
+            color: #5e7a8c;
+            font-size: 1.2em;
+            margin-bottom: 5px;
+            text-align: left;
+            font-weight: 400;
+        }
+
+        textarea {
+            width: 100%; /* S'assure que le textarea prend toute la place disponible */
+            padding: 18px;
+            border: 1px solid #d0d0d0;
+            border-radius: 12px; /* Coins arrondis pour le champ */
+            font-size: 1.1em;
+            line-height: 1.6;
+            resize: vertical; /* Permet le redimensionnement vertical par l'utilisateur */
+            min-height: 100px; /* Hauteur minimale confortable */
+            box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.05); /* Ombre interne douce */
+            transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Transitions fluides */
+            box-sizing: border-box; /* Important pour inclure padding et border dans la largeur */
+        }
+
+        textarea:focus {
+            outline: none; /* Supprime le contour par défaut */
+            border-color: #a1c4fd; /* Bordure bleue apaisante au focus */
+            box-shadow: 0 0 0 4px rgba(161, 196, 253, 0.4); /* Effet d'éclat doux au focus */
+        }
+
+        textarea::placeholder {
+            color: #99aab5; /* Couleur du placeholder plus douce */
+        }
+
+        button {
+            padding: 18px 35px;
+            background-color: #a1c4fd; /* Bleu apaisant pour le bouton */
+            color: white;
+            border: none;
+            border-radius: 12px; /* Coins arrondis */
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: 500;
+            transition: background-color 0.3s ease, transform 0.2s ease; /* Transitions fluides */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Ombre pour le bouton */
+        }
+
+        button:hover {
+            background-color: #80b3f0; /* Bleu légèrement plus foncé au survol */
+            transform: translateY(-2px); /* Effet de léger soulèvement */
+        }
+
+        /* Responsive Design pour les petits écrans */
+        @media (max-width: 768px) {
+            .app-container {
+                width: 95%;
+                padding: 25px;
+            }
+            h1 {
+                font-size: 2.2em;
+            }
+            .response-area, form {
+                width: 100%; /* S'assure que les éléments prennent toute la largeur sur mobile */
+            }
+            textarea {
+                min-height: 80px;
+                padding: 15px;
+            }
+            button {
+                padding: 15px 25px;
+                font-size: 1.1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="animated-background"></div>
+
+    <div class="app-container">
+        <h1>Orsy AI</h1>
+
+        {% if response %}
+        <div class="response-area">
+            <h2>Réponse de Orsy AI :</h2>
+            <p>{{ response }}</p>
+        </div>
+        {% endif %}
+
+        <form method="POST">
+            <label for="question">Écrivez votre question ici :</label>
+            <textarea id="question" name="question" placeholder="Par exemple : Comment puis-je cultiver une attitude positive ?" required>{{ user_question }}</textarea>
+            <button type="submit">Obtenir un conseil</button>
+        </form>
+    </div>
+</body>
+</html>

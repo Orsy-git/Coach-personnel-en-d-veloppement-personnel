@@ -1,0 +1,19 @@
+# Ignorer le dossier de l'environnement virtuel
+venv/
+
+# Ignorer le fichier de variables d'environnement (contient la clé API)
+.env
+
+# Ignorer le dossier de la base de données vectorielle ChromaDB
+chroma_db/
+
+# Ignorer les fichiers cache de Python
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Ignorer les fichiers spécifiques à macOS
+.DS_Store
+
+# Ignorer les fichiers de logs 
+*.log
